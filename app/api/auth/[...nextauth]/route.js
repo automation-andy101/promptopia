@@ -2,6 +2,7 @@ import { sign } from 'crypto'
 import NextAuth from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 
+
 const handler = NextAuth({
     providers: [
         GoogleProvider({
@@ -9,15 +10,15 @@ const handler = NextAuth({
             clientSecret: process.env.GOOGLE_CLIENT_SECRET
         })
     ],
-    async session(session) {
+    async session({ session }) {
         session.user.id = user.id
         return session
     },
-    async signIn(profile) {
-        const isAllowedToSignIn = true
-        if (isAllowedToSignIn) {
-            return true
-        } else {
+    async signIn({ profile }) {
+        try {
+            
+        } catch (error) {
+            console.log(error)
             return false
         }
     }
