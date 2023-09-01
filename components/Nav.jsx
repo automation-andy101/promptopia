@@ -7,17 +7,21 @@ import { signIn, signOut, useSession, getProviders } from "next-auth/react"
 
 
 const Nav = () => {
+const { data: session } = useSession()
+
   const isUserLoggedIn = true;
 
   const [providers, setProviders] = useState(null)
   const [toggleDropdown, setToggleDropdown] = useState(false)
 
   useEffect(() => {
-    const setProviders = async () => {
+    const setUpProviders = async () => {
       const response = await getProviders();
+
       setProviders(response);
     }
-    setProviders();
+
+    setUpProviders();
   }, [])
 
   return (
@@ -37,7 +41,7 @@ const Nav = () => {
       {/* for 'sm' and above the section is visible and flex is applied
       for below 'sm' side displays e.g. 'xs' the below section is hidden */}
       <div className="sm:flex hidden"> 
-        {isUserLoggedIn ? (
+        {session?.user ? (
           <div className="flex gap-3 md:gap-5">
             <Link href="/create-prompt" className="black_btn">
               Create Prompt
@@ -48,7 +52,7 @@ const Nav = () => {
             </button>
 
             <Link href="/profile" className="flex gap-2 flex-center">
-              <Image src="/assets/images/logo.svg" alt="Profile Icon" width={37} height={37} className="rounded-full" />
+              <Image src={session?.user.image} alt="Profile Icon" width={37} height={37} className="rounded-full" />
             </Link>
           </div>
         ) : (
@@ -66,10 +70,10 @@ const Nav = () => {
       {/* for 'sm' and above the section is hidden 
       for below 'sm' side displays e.g. 'xs' the below section is displayed and 'flex' is applied */}
       <div className="sm:hidden flex relative">
-        {isUserLoggedIn ? (
+        {session?.user ? (
           <div className="flex">
             <Image 
-              src="/assets/images/logo.svg"
+              src={session?.user?.image}
               alt="Profile Icon"
               width={37} 
               height={37} 

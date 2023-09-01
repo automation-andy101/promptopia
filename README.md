@@ -47,5 +47,7 @@ npm install mongodb mongoose
 # Install Next-Auth - for authentication
 npm install next-auth
 
+test_user
+Password123
 
 
